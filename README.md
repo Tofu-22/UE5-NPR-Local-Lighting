@@ -92,6 +92,10 @@ Blueprint/C++ users can call `ConfigureReceiver(Mesh, Anchor, Socket)`; newly ad
 
 ## 4. Add it to your own Unlit material
 
+![Unlit material: base color plus MF_NPR_LocalFill, routed to Emissive](Plugins/NPRLocalLighting/Docs/Images/material-connection.png)
+
+Actual UE material-editor capture. The purple Named Reroute labels the final color; it is a readability helper, not an additional lighting operation. Node positions were adjusted only in an unsaved capture copy. The preview sphere does not run the receiver—use Play / Simulate to see scene-light fill.
+
 Set the material to **Surface / Unlit**, add a `MF_NPR_LocalFill` function call, and connect:
 
 ```text
@@ -109,6 +113,10 @@ The function already contains CPD inputs and the matching relative-position calc
 After connecting the function, create a material instance, assign it to the mesh, and follow the receiver setup above. **The function alone is not enough; the receiver supplies its runtime light data.**
 
 ## 5. Adjust the effect in a material instance
+
+![Material instance: NPR Local Fill parameters and static switches](Plugins/NPRLocalLighting/Docs/Images/instance-controls.png)
+
+Default scene-color mode: FillTint and MaxAdd are hidden until their corresponding switches are enabled. The left checkbox overrides a parameter; a switch's value checkbox is separate. Click either illustration to inspect the full image.
 
 In a material instance, tick the parameter's **override checkbox** before changing its value. A static switch has a separate value checkbox; overriding the parameter does not automatically set its value to true.
 

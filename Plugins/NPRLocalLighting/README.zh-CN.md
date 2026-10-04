@@ -83,6 +83,10 @@ $packageDir = 'C:\BuildOutput\NPRLocalLighting'
 
 ## 3. 接入自己的 Unlit 材质
 
+![Unlit 材质接线：基础颜色加 MF_NPR_LocalFill，再输出到 Emissive](Docs/Images/material-connection.png)
+
+UE 材质编辑器实际截图。紫色 Named Reroute 用来标识最终颜色，只是方便阅读，不增加光照计算。仅在未保存的截图副本里调整了节点位置。预览球不运行接收组件，场景补光需要进入 Play／Simulate 观察。
+
 材质设置为 **Surface／Unlit**，添加 `MF_NPR_LocalFill` 函数调用节点，连接：
 
 ```text
@@ -100,6 +104,10 @@ CPD 输入和匹配的相对位置计算已封装在函数中。不要在主材�
 连接后创建材质实例、赋予 Mesh，再按上一节添加和配置接收组件。**只连接 MF 不够，接收组件负责提供运行时灯光数据。**
 
 ## 4. 在材质实例里调效果
+
+![材质实例：NPR Local Fill 参数分组与静态开关](Docs/Images/instance-controls.png)
+
+图中是默认的场景灯颜色模式：开启对应开关后才会显示 FillTint 或 MaxAdd。左侧复选框负责覆盖参数，静态开关的值另有复选框。点击图示可打开完整图片。
 
 在材质实例中，先勾选参数左侧的**覆盖复选框**，再修改数值。Static Switch 还有单独的开关值复选框；勾选覆盖不等于把值设成 true。
 

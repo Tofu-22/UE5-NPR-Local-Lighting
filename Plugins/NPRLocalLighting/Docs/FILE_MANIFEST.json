@@ -36,6 +36,16 @@
       "sha256": "99950ee7757dceb632ce233178e7530e9a5120fcfd20832824cd282ff8770085"
     },
     {
+      "path": "Docs/Images/instance-controls.png",
+      "bytes": 204648,
+      "sha256": "7cad861809578cb97b81c0659d69ef6e5659bbe1d26407a07310849b04a20bff"
+    },
+    {
+      "path": "Docs/Images/material-connection.png",
+      "bytes": 189379,
+      "sha256": "2cec685a37ca9922bbc2d349244fb34e8c1f41f3d11dfd2c8ed063a38ee36453"
+    },
+    {
       "path": "Docs/RELEASE_CHECKLIST.md",
       "bytes": 1528,
       "sha256": "a6d0212a55b179373144e7b708fb3c9386a07991edb8b8d976c3ad64a5b05f7e"
@@ -57,13 +67,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 12470,
-      "sha256": "3a1602eb0c6f39fe3c4a9284cc143be05a15752c47ee7a3ff930b01f6bc94c5c"
+      "bytes": 13228,
+      "sha256": "58e0224e5298de5e974590f0828467d6381b80a9715dcf695a1fb8ee50a8fce0"
     },
     {
       "path": "README.zh-CN.md",
-      "bytes": 11580,
-      "sha256": "6ebf9e4bc965f600e411d07f9e6e767ce5b9b1ef53ea0e1975de4134bea124ec"
+      "bytes": 12272,
+      "sha256": "18385907131fcd70cb5130e3e4152587193c206ed6561d7445c94bec7da85d8c"
     },
     {
       "path": "Shaders/Reference/LocalFill.hlsl",
