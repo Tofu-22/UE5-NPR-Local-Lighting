@@ -1,0 +1,14 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.8",
+  "Category": "Rendering",
+  "Description": "Standalone NPR Local Lighting plugin demo. Engine primitives only; no character or third-party assets.",
+  "Plugins": [
+    { "Name": "NPRLocalLighting", "Enabled": true },
+    { "Name": "Mutable", "Enabled": false },
+    { "Name": "ModelContextProtocol", "Enabled": false },
+    { "Name": "EditorToolset", "Enabled": false },
+    { "Name": "MCPClientToolset", "Enabled": false },
+    { "Name": "Terminal", "Enabled": false }
+  ]
+}

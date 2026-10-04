@@ -1,0 +1,16 @@
+{
+  "FileVersion": 3,
+  "Version": 5,
+  "VersionName": "0.4.0-review-fix",
+  "FriendlyName": "NPR Local Lighting",
+  "Description": "Two per-primitive artistic Point/Spot lights for Unlit materials. Includes one self-contained material function and a minimal Unlit example. No renderer modifications.",
+  "Category": "Rendering",
+  "EngineVersion": "5.8.0",
+  "CanContainContent": true,
+  "EnabledByDefault": false,
+  "IsBetaVersion": true,
+  "SupportedTargetPlatforms": ["Win64"],
+  "Modules": [
+    { "Name": "NPRLocalLighting", "Type": "Runtime", "LoadingPhase": "Default" }
+  ]
+}

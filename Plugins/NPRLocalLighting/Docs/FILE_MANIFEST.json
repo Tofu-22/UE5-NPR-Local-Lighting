@@ -1,0 +1,118 @@
+{
+  "format": 1,
+  "date": "2026-10-04",
+  "status": "standalone_release_candidate",
+  "license": "not_selected_by_publisher",
+  "version": "0.4.0-review-fix",
+  "contentMount": "/NPRLocalLighting/",
+  "contentAssetCount": 3,
+  "runtimeModules": [
+    "NPRLocalLighting"
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 70,
+      "sha256": "eb37a5f55c26436227dd4d5ec2de46789fb94fdd6520fbfa558d81d2b0ae57bb"
+    },
+    {
+      "path": "Config/FilterPlugin.ini",
+      "bytes": 59,
+      "sha256": "5eeb2057c3f1ddd145799761b871f474dbcd547dae72d5113602449d1176518f"
+    },
+    {
+      "path": "Content/Materials/M_NPR_Unlit.uasset",
+      "bytes": 8904,
+      "sha256": "9bb169e91536356a44cc68a0b38fb538b812af30a6f217c50e5320e5c3c6e368"
+    },
+    {
+      "path": "Content/Materials/MF_NPR_LocalFill.uasset",
+      "bytes": 26159,
+      "sha256": "c76cff2e948c5299141cf7005d68d607dd23cf012d181dab0ceda075ac2fb8b7"
+    },
+    {
+      "path": "Content/Materials/MI_NPR_Unlit.uasset",
+      "bytes": 4510,
+      "sha256": "99950ee7757dceb632ce233178e7530e9a5120fcfd20832824cd282ff8770085"
+    },
+    {
+      "path": "Docs/RELEASE_CHECKLIST.md",
+      "bytes": 1498,
+      "sha256": "5261cee5dc0c240f155062f3cbf239d559af34ec090be4267af8760b598680ba"
+    },
+    {
+      "path": "Docs/VALIDATION.md",
+      "bytes": 8005,
+      "sha256": "2b953e2e8318e73789c4514b5715a72e03a60cb9126e9dc3037f1383512ce35e"
+    },
+    {
+      "path": "NPRLocalLighting.uplugin",
+      "bytes": 584,
+      "sha256": "565e32de0ea291ee738a00eb2917eed187742d6947dce9b4baab27f5d301bd1e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 11277,
+      "sha256": "a2a7686385fced0d2631a028fa0b81f865896b4fdba65d34777f090bef6ba016"
+    },
+    {
+      "path": "Shaders/Reference/LocalFill.hlsl",
+      "bytes": 1603,
+      "sha256": "dd136ccdd1c0a62cf1608491f3d3c7d58f88410bc39ba4ff64b9221db6e7e8c5"
+    },
+    {
+      "path": "Shaders/Reference/README.md",
+      "bytes": 982,
+      "sha256": "f529006d9288f9558e99b7383e9135c039ef6cc59fa06c85197be564318eb45c"
+    },
+    {
+      "path": "Source/NPRLocalLighting/NPRLocalLighting.Build.cs",
+      "bytes": 468,
+      "sha256": "8e78bc2f87799dcd427c9dcaccf92f65c22a9caef9808c22eaf010bef81cbd7e"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Private/NPRLocalLightingModule.cpp",
+      "bytes": 90,
+      "sha256": "047f98e028a8b7ca25d320b3ea839189142767de17f8b620843fc260209bb606"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Private/NPRLocalLightingSubsystem.cpp",
+      "bytes": 21698,
+      "sha256": "229e013ff20e2d56a03f6ac28c137453fd4535a306d555c989b7d8ccd5064cf9"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Private/NPRLocalLightReceiverComponent.cpp",
+      "bytes": 17977,
+      "sha256": "5205f47cdf44af62acebdeb932aca38e903db2cb93e7e38e782bb585c50bbc7f"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Private/Tests/NPRLocalLightingReleaseTests.cpp",
+      "bytes": 3600,
+      "sha256": "ef41443d19427aca005085440916fb562d58248979cfbfeabe1cdba00ee0b7b7"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Private/Tests/NPRLocalLightingReviewTests.cpp",
+      "bytes": 9582,
+      "sha256": "bec3bf0eca4047cad13eeb36a6b754102800fa65a9eddd5899cdd236f804cdb8"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Public/NPRLocalLightingSubsystem.h",
+      "bytes": 4366,
+      "sha256": "52cc67504b3e4df3d0940c2df7a721abb5e1caf17a55813260416bed127673d6"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Public/NPRLocalLightingTypes.h",
+      "bytes": 2347,
+      "sha256": "80dd4a23e41fa527146db48150289655a80b78e5a9d3b11ee780d734d692d332"
+    },
+    {
+      "path": "Source/NPRLocalLighting/Public/NPRLocalLightReceiverComponent.h",
+      "bytes": 5755,
+      "sha256": "214e2c77ea41cd64181194a472825cd62069427c0c384c4f252c4a4932b2553f"
+    }
+  ],
+  "note": "Inventory excludes itself and local Binaries/Intermediate. No editor lab, character, tutorial, project assets or private logs are part of the plugin.",
+  "colorMode": "PLR_UseCustomColor; false=scene, true=instance",
+  "edgeMode": "PLR_EdgeSoftness; zero=hard boundary",
+  "maxAddMode": "PLR_UseMaxAdd; optional hue-preserving fill ceiling"
+}

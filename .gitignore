@@ -1,0 +1,16 @@
+/Binaries/
+/Intermediate/
+/Saved/
+/DerivedDataCache/
+/Dist/
+/.vs/
+/.git/
+/AGENTS.md
+Config/DefaultEditorPerProjectUserSettings.ini
+*.log
+*.tmp
+*.bak
+*.sln
+*.suo
+/Plugins/*/Binaries/
+/Plugins/*/Intermediate/
