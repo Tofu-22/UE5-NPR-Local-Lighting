@@ -17,8 +17,8 @@
     },
     {
       "path": "Config/FilterPlugin.ini",
-      "bytes": 68,
-      "sha256": "2e1069e0adaed78e3d5d21c6f4b9618e8aeb6e260c348dab25be2b044f84b4c7"
+      "bytes": 85,
+      "sha256": "1fa01a5e9732bb6e077f9769e01583421894f88bdeb3da3025892dfafe9beea2"
     },
     {
       "path": "Content/Materials/M_NPR_Unlit.uasset",
@@ -57,8 +57,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 11350,
-      "sha256": "c3b06ba2274f34bd876ab1c30f6f2e1cafe069470c7ecd3d6a895c8b6870b2c9"
+      "bytes": 12470,
+      "sha256": "3a1602eb0c6f39fe3c4a9284cc143be05a15752c47ee7a3ff930b01f6bc94c5c"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "bytes": 11580,
+      "sha256": "6ebf9e4bc965f600e411d07f9e6e767ce5b9b1ef53ea0e1975de4134bea124ec"
     },
     {
       "path": "Shaders/Reference/LocalFill.hlsl",

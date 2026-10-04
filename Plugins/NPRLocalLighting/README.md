@@ -1,100 +1,158 @@
-# NPR Local Lighting — release candidate
+# NPR Local Lighting
 
-Artistic local-light fill for Unreal Engine **Unlit** materials. Ordinary Point and Spot lights supply position, range, scene color and brightness; a receiver component selects at most two lights and writes per-mesh Custom Primitive Data. The bundled material function turns this data into an additive RGB fill.
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-This is an NPR control layer, **not Default Lit/PBR**, a native shadow replacement or a renderer modification. No extra rendering pass, SceneCapture, global MPC or modified engine is required.
+**Let Unlit materials receive artistic local lighting from ordinary Unreal Engine Point and Spot lights.**
 
-## Contents
+Unlit materials are useful for anime/NPR characters and other art-directed objects because you control their final color. However, they do not receive Unreal's normal surface lighting. NPR Local Lighting adds a controllable local-light fill without replacing your existing shader with Default Lit.
 
-Only these three content assets are distributed, under the plugin mount `/NPRLocalLighting/Materials/`:
+A runtime component selects up to **two lights per mesh**, sends their data through Custom Primitive Data (CPD), and a material function produces the additional color. Your base color, hand-painted shading and existing highlights remain yours.
 
-- `MF_NPR_LocalFill`: complete CPD input, relative pixel position, Point/Spot response, optional AO and hue-preserving additive cap.
-- `M_NPR_Unlit`: a plain opaque Surface / Unlit example.
-- `MI_NPR_Unlit`: its material instance; no external textures or tutorial overrides.
+## What it does—and does not do
 
-The C++ Runtime module supplies the subsystem and receiver. The original project-only Editor lab module, tutorial materials, character assets, MPC, control Blueprints and experimental maps are excluded.
+- Follows real Point/Spot light position, range, color, temperature and brightness.
+- Offers scene-light color or a custom material-instance color.
+- Separates fill strength, radius, edge softness and an optional brightness ceiling.
+- Supports static and skeletal meshes; different meshes can share one material instance without sharing their light selection.
+- Approximates whole-object occlusion with collision queries around a configured anchor.
+- Requires no engine-source changes, additional render pass, SceneCapture, global MPC or MCP connection.
 
-## Installation
+This is **artistic additive fill**, not a PBR shading model or a native shadow replacement. It does not add directional/sky lighting, hair shading, KK highlights, Matcap, outlines or transparency. Integrate it into an existing Unlit shader, or start with the included plain example.
 
-1. Copy this entire folder into **your project's `Plugins/NPRLocalLighting/`**. Do not put the `.uasset` files under `/Game`: their internal references use the plugin mount.
-2. Build against your exact installed Unreal Engine version. This GitHub-style folder deliberately contains source, not machine-specific DLLs. A C++ toolchain is required when no matching precompiled distribution is provided.
-3. Enable **NPR Local Lighting**, then restart the editor. In the Content Browser, enable **Show Plugin Content**.
-4. Open `NPRLocalLighting/Materials/MI_NPR_Unlit`, then assign it to a test mesh.
+## Contents and requirements
 
-Do not install a second copy of the same plugin name alongside an existing installation. Back up the existing plugin before upgrading.
+Tested with **UE 5.8.3, Windows / Win64**. Other versions/platforms are unverified. This beta source distribution requires a compatible Unreal C++ toolchain; precompiled DLLs are not included.
 
-## Minimal material connection
+One Runtime module and three assets are included under `/NPRLocalLighting/Materials/`:
 
-Set your own material to **Surface / Unlit**. Add `MF_NPR_LocalFill`, then connect:
+- `MF_NPR_LocalFill`: complete runtime fill function.
+- `M_NPR_Unlit`: plain Surface / Opaque / Unlit example.
+- `MI_NPR_Unlit`: matching instance, with no texture dependency.
 
-```text
-Your original unlit color -> Add.A
-MF_NPR_LocalFill.Fill     -> Add.B
-Add                      -> Emissive Color
+The optional demo project is in the [GitHub repository](https://github.com/Tofu-22/UE5-NPR-Local-Lighting); it is not required to use this plugin.
+
+## 1. Download and build
+
+Download the repository ZIP from GitHub, or clone it:
+
+```powershell
+git clone https://github.com/Tofu-22/UE5-NPR-Local-Lighting.git
 ```
 
-That's the entire material-side integration. Do not connect it to Base Color expecting Lit lighting. The example has only BaseColor, one function call, Add and an output Named Reroute. The function's optional `AO` input defaults to **1**; supply a scalar occlusion mask if desired. It does not implement the material's base shading/AO by itself.
+Close the target Unreal Editor before installing or replacing plugin binaries. Back up an existing installation; do not install two copies of the same plugin.
 
-The eight runtime CPD vector parameters and `AbsoluteWorldPosition - ActorPositionWS` are **inside the function**. Do not recreate them in the parent material or override `PLR_L0_*` / `PLR_L1_*` in the instance.
+For a source-only download, Unreal's `BuildPlugin` command can create a local, engine-matched plugin package. Example in PowerShell—**replace all three paths** with your own:
 
-## Mesh/actor setup — no character Blueprint required
+```powershell
+$ueRoot = 'C:\Program Files\Epic Games\UE_5.8'
+$pluginFile = 'C:\Projects\UE5-NPR-Local-Lighting\Plugins\NPRLocalLighting\NPRLocalLighting.uplugin'
+$packageDir = 'C:\BuildOutput\NPRLocalLighting'
+& "$ueRoot\Engine\Build\BatchFiles\RunUAT.bat" BuildPlugin "-Plugin=$pluginFile" "-Package=$packageDir" -TargetPlatforms=Win64
+```
 
-1. Select the placed mesh actor and **Add Component → NPR Local Light Receiver**.
-2. With one compatible mesh, leave **Auto Find Target Mesh** enabled. With multiple meshes, choose **Mesh Component** explicitly. Target and receiver must belong to the same actor/world.
-3. For a static mesh, click **Create Head Anchor**, select the new anchor and move it to the region receiving fill. The initial 150 cm is only a starting offset, not automatic detection. For a skeletal mesh, choose a valid **Head Socket** instead.
-4. Click **Validate Setup**. `Ready` means setup passed, not that editor-viewport lighting is running.
-5. Place a real **Movable Point Light** or **Spot Light** whose range covers the anchor. Start with a broad spot cone or a point light.
-6. **Play or Simulate**. The runtime subsystem does not update the static editor viewport. `Receiving` and an empty `LastError` indicate runtime registration.
+Use a dedicated output directory **outside the source plugin**. This command needs the Unreal C++ build tools even if your project is Blueprint-only.
 
-For a prop/sphere rather than a head, move the anchor to the desired sampling center. Candidate selection and whole-object occlusion still use that anchor, not every pixel. ConfigureReceiver is available to Blueprint/C++; native component pickers and direct references also support integrations such as MCP. No MCP plugin is a product dependency.
+- **To use the demo:** use the built package to supply the plugin in this repository's `Plugins/NPRLocalLighting/`, then open `NPRLocalLightingDemo.uproject`.
+- **To use your own project:** install the built plugin folder as `YourProject/Plugins/NPRLocalLighting/`. An existing C++ project can instead build the source plugin with its normal project build.
 
-## Material instance tuning
+Enable **NPRLocalLighting** in the Plugins window and restart if requested. In the Content Browser settings, enable **Show Plugin Content**.
 
-| Parameter | Default | Meaning |
+Keep the materials inside the plugin mount `/NPRLocalLighting/Materials/`. Do not move only the three assets into `/Game`; their internal references depend on that mount.
+
+## 2. Set up a mesh manually
+
+You do **not** need to create an Actor Blueprint for an already placed Static Mesh Actor.
+
+1. Assign `MI_NPR_Unlit` from the plugin's Materials folder to a test mesh.
+2. Select its actor in the level. Use **Add Component → NPR Local Light Receiver**.
+3. Select the receiver in the actor's component list:
+   - With one compatible mesh, leave **Auto Find Target Mesh** enabled.
+   - With several meshes, explicitly choose **Mesh Component**. The receiver and mesh must belong to the same actor.
+4. Configure where the object samples lights:
+   - **Static mesh / prop:** click **Create Head Anchor**. Select the new `NPR_HeadAnchor` component and move it to the head or desired sampling region. For a sphere/cube, use its center.
+   - **Skeletal mesh:** set **Head Socket** to a valid socket or bone on the selected mesh. A configured socket takes priority over anchor mode; an invalid name is an error.
+5. Click **Validate Setup**. `Setup Status: Ready` confirms valid configuration only.
+6. Add an ordinary **Movable Point Light** or **Spot Light**. Its attenuation range must cover the anchor; for a Spot Light, point the cone at it as well.
+7. **Play / Simulate**. Check the receiver's diagnostics: **Receiving** should be true and **Last Error** empty.
+
+The created anchor starts at an offset of **150 cm**. That is not automatic head detection; move it to suit your model. The anchor determines light selection and whole-object occlusion, while the material computes the fill shape at each pixel.
+
+For a first setup check, you can temporarily disable the lamp's **Cast Shadows** to bypass the plugin's collision-based occlusion. Restore it when testing occlusion. If a physical light produces weak fill, check intensity and the receiver's **Physical Reference** rather than assuming the material is disconnected.
+
+Blueprint/C++ users can call `ConfigureReceiver(Mesh, Anchor, Socket)`; newly added runtime light components on an existing actor must be registered through the subsystem's `RegisterLight`. Spawned light actors and streamed levels are discovered automatically.
+
+## 3. Add it to your own Unlit material
+
+Set the material to **Surface / Unlit**, add a `MF_NPR_LocalFill` function call, and connect:
+
+```text
+Your original final Unlit color → Add.A
+MF_NPR_LocalFill.Fill           → Add.B
+Add                            → Emissive Color
+```
+
+Here “original final color” means your existing color/shading/highlight result, not necessarily just a texture.
+
+The function's optional scalar **AO** input defaults to **1**. Connect an occlusion mask if you want it to attenuate the new fill; this does not replace your shader's original AO treatment.
+
+The function already contains CPD inputs and the matching relative-position calculation. Do not duplicate that wiring or manually override its internal `PLR_L0_*` / `PLR_L1_*` data.
+
+After connecting the function, create a material instance, assign it to the mesh, and follow the receiver setup above. **The function alone is not enough; the receiver supplies its runtime light data.**
+
+## 4. Adjust the effect in a material instance
+
+In a material instance, tick the parameter's **override checkbox** before changing its value. A static switch has a separate value checkbox; overriding the parameter does not automatically set its value to true.
+
+| Parameter | Default | What to change |
 | --- | --- | --- |
-| BaseColor | dark blue-grey | Original flat Unlit color; replace with your own base color chain in custom materials. |
-| PLR_UseCustomColor | false | Static switch: false uses scene-light color; true replaces it with PLR_FillTint. |
-| PLR_FillTint | white | Custom fill color, used only when PLR_UseCustomColor is true. Not multiplied by scene-light hue. |
-| PLR_FillStrength | 1 | Material-side artistic multiplier before the additive cap; 0 disables this fill. |
-| PLR_RadiusScale | 1 | Artistic scale applied to real attenuation radius. |
-| PLR_EdgeSoftness | 0.25 | Fraction of the effective radius occupied by the inner transition: 0 intentionally hard, 1 smooth across the full radius. Does not move the outer boundary. |
-| PLR_UseMaxAdd | false | Static switch enabling the optional fill ceiling. MaxAdd is visible only when enabled. |
-| PLR_MaxAdd | 1 | Maximum RGB component of the **added fill**, not the final Emissive. Only with UseMaxAdd; scales RGB uniformly to preserve hue. Lower it BELOW the current peak to see a change. |
+| `BaseColor` | Example base color | Flat base color in the included example; your custom shader can use its own color chain |
+| `PLR_FillStrength` | 1 | Overall fill gain; 0 turns this material's fill off |
+| `PLR_RadiusScale` | 1 | Multiplier on the real lamp's attenuation radius |
+| `PLR_EdgeSoftness` | 0.25 | Fraction of the effective radius used for the inside fade; 0 = hard boundary, 1 = fade across the full radius |
+| `PLR_UseCustomColor` | false | False: use scene-light color. True: use `PLR_FillTint` instead |
+| `PLR_FillTint` | White | Custom fill color; shown only when custom-color mode is enabled |
+| `PLR_UseMaxAdd` | false | Enable an optional ceiling on the added fill |
+| `PLR_MaxAdd` | 1 | Shown only when the ceiling is enabled; limits the fill's largest RGB component, preserving hue |
 
-Version 0.4 replaces the old Hardness/Smooth/Offset controls with separate edge-shape, gain and optional ceiling controls. There is no one-to-one mapping of arbitrary old combinations. Original tutorial assets and historical packages are preserved. `EdgeSoftness=0` deliberately selects a hard boundary without division by zero; positive values use a smoothstep fade inside the effective outer radius. Custom FillTint is visible only when UseCustomColor is enabled.
+Suggested tuning order: **FillStrength → RadiusScale → EdgeSoftness → color mode → optional MaxAdd**.
 
-RadiusScale above 1 now expands CPU candidate selection as well as the material's range. The receiver reads effective PLR_RadiusScale values (including live MID overrides) from compatible slots at 10 Hz. Its conservative selection scale is the maximum of 1 and those values; CPD retains the physical radius and the shader scales it once. Multiple compatible slots share one two-light shortlist. A large-scale slot can therefore influence which two lamps another slot receives. Non-finite or negative scales refuse setup.
+- A hard cutoff: increase **EdgeSoftness**, not FillStrength. The fade stays inside the scaled outer boundary.
+- Excessive brightness: lower **FillStrength**, or enable **UseMaxAdd** and reduce **MaxAdd**.
+- MaxAdd seems ineffective: it only acts when the fill exceeds the ceiling. It does not clamp the final material color.
+- Custom color replaces scene hue; it is not multiplied by it. Both selected lamps use the same custom color, but still supply their own range, energy, cone and occlusion.
+- The two color/cap switches are **static material configuration**, not per-frame animation controls; changing them may compile a shader variant.
 
-Receiver **Artistic Strength** is per object. **Physical Reference** (default 100) and **Unitless Reference** (default 8) control brightness mapping. Engine-unit/color-temperature conversion is read first; mapped brightness is artistic `E/(E+Reference)`, not a photometrically exact Lit exposure match. Increasing raw light intensity is not the only way to adjust fill.
+On the receiver, **Artistic Strength** (default 1) adjusts the entire object. **Physical Reference** (100) and **Unitless Reference** (8) adjust the brightness mapping: increasing the relevant reference weakens fill at a fixed light energy. The mapping is artistic `E / (E + Reference)`, not an exact match to Lit exposure. Scene-color luminance affects energy even in custom-color mode.
 
-### Choosing the color mode
+## 5. Troubleshooting
 
-In the instance's Static Switch Parameters, enable the override checkbox for `PLR_UseCustomColor`, then set its value. **False (default)** follows the real lamp color, including color temperature. **True** uses `PLR_FillTint` instead; enable that vector's override and pick the desired color. Red scene light plus green custom color produces green fill, not a red-times-green blackout. Both selected lamps use the same custom color.
+| Symptom | Check |
+| --- | --- |
+| No change in the editor viewport | Start Play / Simulate; Ready is not runtime preview |
+| No fill during Play | Correct material on the correct slot, Receiving=true, Last Error empty, nonzero strength, lamp range/cone covers the anchor |
+| Receiver reports missing PL Runtime ABI | The assigned material must actually contain `MF_NPR_LocalFill`; reconnect, compile and validate |
+| Cannot choose a unique mesh | Set Mesh Component explicitly; do not rely on auto-find for a multi-mesh actor |
+| Head position / socket error | Move or bind the anchor correctly, or supply a valid skeletal socket/bone |
+| Occlusion seems wrong | Check Visibility collision, including invisible proxy meshes; no blocking collision means no occlusion |
+| CPD conflict / external writer error | Reserve indices 0–31 on the whole mesh; do not clear another system's data just to suppress the error |
+| Larger RadiusScale still looks wrong | Confirm the instance override and anchor; selection updates at 10 Hz and is limited to two lights |
+| Several colored lights turn one color | Custom-color mode is enabled; disable it to retain each lamp's scene color |
 
-This is a material-instance configuration switch, not a per-frame Blueprint toggle; changing it may compile a shader permutation. It changes only fill color. Lamp selection, energy, range, spot cones, occlusion and switching weights still come from the scene; no valid light or zero strength still means zero fill. Energy mapping includes scene-color luminance, so equal raw intensity with different lamp colors need not produce equal brightness. The old light-color-times-tint behavior is intentionally replaced by these two explicit modes.
+Use **Restart Receiver** in runtime after resolving setup issues, or stop and restart Play. **Validate Setup** reports configuration errors without turning on editor-preview lighting.
 
-## Data contract and limitations
+## Design limits and performance
 
-- Reserve CPD **float indices 0–31 on the entire mesh primitive**, including its other material slots. This is not a per-material allocation. Foreign parameters/nonzero reserved data/external writers stop the receiver rather than silently overwrite them. Indices 32+ are not owned.
-- Each light uses four Float4 parameters: PositionRadius, ColorWeight, DirectionOuter, Control. Names `PLR_L0_*`/`PLR_L1_*` and their indices are ABI v1; defaults are all zero.
-- Pixel/light positions are relative to **shader ActorPositionWS**, supplied by `TargetMesh->GetActorPositionForRenderer()`. With cross-actor attachment this may be the render attachment root's actor origin, not the child actor's own origin. The CPU and shader use the same origin; keep the built-in coordinate chain. Manual integrations must follow this contract too.
-- Up to two selected lights, four shortlisted candidates, 10 Hz candidate/occlusion updates, smooth light-identity switching. Viable current/pending identities are included in the four-candidate budget so hysteresis cannot leave their visibility unrefreshed. Current selected lamp data is updated every frame. One receiver exclusively owns a mesh; a duplicate is rejected before writing even when CPD is still zero.
-- Three asynchronous Visibility traces from the anchor and left/right offsets approximate **whole-head/object occlusion**. This does not sample VSM or individual strands. No blocking Visibility collision means no occlusion. Invisible auxiliary proxies should not block Visibility. A lamp with Cast Shadows disabled bypasses this occlusion approximation.
-- Global trace scheduling budget 32/frame; stale results conservatively switch fill off. Lighting Channels, visibility, AffectsWorld and invalid/destroyed lamps are respected.
-- Spawned lamp actors/streamed levels are discovered. Newly added light components on an already existing actor must call `RegisterLight`.
-- No automatic eyebrow-through-bangs/transparency, directional-light NPR shading, hair BRDF, KK, Matcap or Rim is bundled. This release only adds local fill to the Unlit material you already have.
-- No claim of zero GPU cost, all-platform performance, production skeletal-animation coverage or packaged streaming coverage. Original lab timings are not a new release benchmark.
+- **Two selected Point/Spot lights per mesh**, with at most four candidates checked per selection update. No Directional Light or Sky Light response is provided by this plugin.
+- Candidate selection and occlusion update at **10 Hz**; selected light data updates each frame. Switching identities uses fading rather than interpolating unrelated lamp positions.
+- Three asynchronous **Visibility** traces around the anchor approximate whole-head/object occlusion. They do not read VSM or provide per-strand/self shadows. Lights with Cast Shadows disabled bypass this approximation.
+- A shared budget of **32 traces per frame** limits occlusion scheduling; old results conservatively suppress fill when stale.
+- CPD **float indices 0–31 belong to this receiver on the whole mesh**, across all material slots. One receiver owns one mesh. Other systems must not write these indices.
+- Multiple compatible slots on one mesh share the same two-light selection. The largest effective RadiusScale influences selection; larger ranges do not increase the light-count limit.
+- Ordinary visibility, AffectsWorld and Lighting Channels are respected.
+- No extra pass does **not** mean zero cost: the material adds shader work, and CPU selection/queries depend on scene density and receiver count. No universal frame-time guarantee is claimed.
 
-## Validation and release status
+See [validation evidence](Docs/VALIDATION.md) for recorded tests and remaining coverage. Other platforms, full packaged-game/streaming coverage and production skeletal-animation coverage remain to be validated. Fab publication/approval is not claimed.
 
-See `Docs/VALIDATION.md` for evidence and pending checks. Local tests do not imply Fab acceptance. This plugin is licensed under MIT; see the accompanying `LICENSE` file. Publisher identity and Fab listing details still need to be completed. The MIT license does not grant rights to third-party material.
+## License
 
-## 中文快速使用
-
-把整个插件文件夹放进自己项目的 `Plugins`，编译、启用并重启；Content Browser 打开「显示插件内容」。材质端只需 `原颜色 + MF_NPR_LocalFill.Fill → Emissive`，保持 Unlit。MF 的 AO 可不接，默认 1；艺术参数在 MI 的 NPR Local Fill 分组中。
-
-普通 Mesh Actor 添加 NPR Local Light Receiver，创建并移动锚点、Validate Setup，再放普通 Point/Spot Light，进入 Play/Simulate 看效果。锚点用于选灯/整体遮挡，不是逐像素阴影。运行时 CPD 参数不要手动修改，CPD 0–31 不要被其他系统占用。
-
-颜色模式：MI 中 `PLR_UseCustomColor` 默认关闭，跟随真实灯色；勾选参数左侧覆盖框并把开关值打开后，用 `PLR_FillTint` 自定义补光颜色，不再与灯色相乘。两盏灯共用这个自定义色；没有灯仍不补光。开关是静态材质配置，首次切换可能编译。
-
-本文件夹只用于独立发布准备，不包括原 Shader 学习项目、角色、教程资源或测试关卡。代码与随附插件内容按 MIT 许可；Fab 上架仍需填写发布者信息并通过平台审核。
+[MIT](LICENSE), copyright © 2026 Tofu. Applies to the code and included original plugin/demo assets. It does not grant rights to third-party resources you use with the plugin.
