@@ -2,7 +2,7 @@
 
 This folder is a source-and-content candidate, not a published or Fab-approved release.
 
-- [ ] Publisher chooses the open-source license and copyright owner. No LICENSE has been invented.
+- [x] Repository owner selected MIT (Copyright 2026 Tofu); LICENSE files are included at repository and standalone plugin roots.
 - [ ] Add publisher identity, documentation/support URLs and listing metadata to the descriptor.
 - [ ] Supply an original plugin icon and listing media; do not use the learning project's character or tutorial images without permission.
 - [ ] Verify builds/cooks on every advertised target. Initial scope is UE 5.8 / Win64 only, not a claim about other versions or platforms.

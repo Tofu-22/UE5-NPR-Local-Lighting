@@ -22,4 +22,4 @@ GitHub源码整理时保留uproject、Config、Content、Plugins、README和Docs
 
 MCP、Python、Terminal和原项目Editor Lab都不是运行依赖。工程配置不主动启用维护Python工具，并明确关闭MCP/Terminal；引擎默认编辑器插件仍可能加载Python，这不代表插件依赖它。维护命令不写进发布依赖。
 
-当前仓库用于公开源码与可选展示工程；**许可证尚未确定，当前没有授予他人复用、修改或再分发本项目的许可**。UE版本及平台编译验证不等于Fab审核通过或完整游戏打包验收。具体迁移与验证记录见 [迁移报告](Docs/MIGRATION_20261004.md)。
+本仓库按 MIT 许可证发布，见根目录 `LICENSE`。UE版本及平台编译验证不等于Fab审核通过或完整游戏打包验收；Fab 的商品许可需要在上架时另行选择。具体迁移与验证记录见 [迁移报告](Docs/MIGRATION_20261004.md)。

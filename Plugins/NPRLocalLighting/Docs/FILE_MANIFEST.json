@@ -2,7 +2,7 @@
   "format": 1,
   "date": "2026-10-04",
   "status": "standalone_release_candidate",
-  "license": "not_selected_by_publisher",
+  "license": "MIT",
   "version": "0.4.0-review-fix",
   "contentMount": "/NPRLocalLighting/",
   "contentAssetCount": 3,
@@ -17,8 +17,8 @@
     },
     {
       "path": "Config/FilterPlugin.ini",
-      "bytes": 59,
-      "sha256": "5eeb2057c3f1ddd145799761b871f474dbcd547dae72d5113602449d1176518f"
+      "bytes": 68,
+      "sha256": "2e1069e0adaed78e3d5d21c6f4b9618e8aeb6e260c348dab25be2b044f84b4c7"
     },
     {
       "path": "Content/Materials/M_NPR_Unlit.uasset",
@@ -37,13 +37,18 @@
     },
     {
       "path": "Docs/RELEASE_CHECKLIST.md",
-      "bytes": 1498,
-      "sha256": "5261cee5dc0c240f155062f3cbf239d559af34ec090be4267af8760b598680ba"
+      "bytes": 1528,
+      "sha256": "a6d0212a55b179373144e7b708fb3c9386a07991edb8b8d976c3ad64a5b05f7e"
     },
     {
       "path": "Docs/VALIDATION.md",
       "bytes": 8005,
       "sha256": "2b953e2e8318e73789c4514b5715a72e03a60cb9126e9dc3037f1383512ce35e"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1061,
+      "sha256": "e17aa416b5161c383c8626f202a337aeb214f19e5c97bb95715a0ebb2d7fa0e0"
     },
     {
       "path": "NPRLocalLighting.uplugin",
@@ -52,8 +57,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 11277,
-      "sha256": "a2a7686385fced0d2631a028fa0b81f865896b4fdba65d34777f090bef6ba016"
+      "bytes": 11350,
+      "sha256": "c3b06ba2274f34bd876ab1c30f6f2e1cafe069470c7ecd3d6a895c8b6870b2c9"
     },
     {
       "path": "Shaders/Reference/LocalFill.hlsl",

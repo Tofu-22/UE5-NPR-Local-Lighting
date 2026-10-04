@@ -87,7 +87,7 @@ This is a material-instance configuration switch, not a per-frame Blueprint togg
 
 ## Validation and release status
 
-See `Docs/VALIDATION.md` for evidence and pending checks. Local tests do not imply Fab acceptance. **The open-source license and publisher identity still need to be selected before public upload.** This folder contains no invented LICENSE or third-party redistribution authorization.
+See `Docs/VALIDATION.md` for evidence and pending checks. Local tests do not imply Fab acceptance. This plugin is licensed under MIT; see the accompanying `LICENSE` file. Publisher identity and Fab listing details still need to be completed. The MIT license does not grant rights to third-party material.
 
 ## 中文快速使用
 
@@ -97,4 +97,4 @@ See `Docs/VALIDATION.md` for evidence and pending checks. Local tests do not imp
 
 颜色模式：MI 中 `PLR_UseCustomColor` 默认关闭，跟随真实灯色；勾选参数左侧覆盖框并把开关值打开后，用 `PLR_FillTint` 自定义补光颜色，不再与灯色相乘。两盏灯共用这个自定义色；没有灯仍不补光。开关是静态材质配置，首次切换可能编译。
 
-本文件夹只用于独立发布准备，不包括原 Shader 学习项目、角色、教程资源或测试关卡。许可、发布者信息及 Fab 审核仍待确认。
+本文件夹只用于独立发布准备，不包括原 Shader 学习项目、角色、教程资源或测试关卡。代码与随附插件内容按 MIT 许可；Fab 上架仍需填写发布者信息并通过平台审核。

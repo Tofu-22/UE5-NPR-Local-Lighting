@@ -32,7 +32,7 @@
 3. 项目 Content 的四个 MI 用来调整对照；运动 Blueprint 的实例参数为 `TravelAmplitude`、`PeriodSeconds`、`RotationSpeed`。
 4. 插件单独分发仅需要 `Plugins/NPRLocalLighting/` 的源码/配置/三资产/文档；展示工程分发再增加工程配置及七份展示资产。
 
-本机 `Dist/NPRLocalLighting_Source_20261004.zip` 和 `Dist/NPRLocalLightingDemo_Source_20261004.zip` 是待发布源码整理包：不含本机 Binaries/PDB、Intermediate、Saved、DerivedDataCache、迁移暂存及测试日志；它们刻意不放入 Git 仓库。其他使用者需要针对其 UE 编译插件。没有添加未经用户选择的 LICENSE。Fab 发布尚未进行。
+项目仓库采用远端创建时用户选择的 MIT 许可证（Copyright 2026 Tofu）。仓库根与独立插件目录各带一份 LICENSE，便于整体仓库或单独插件包保留许可文本。本机 `Dist/NPRLocalLighting_Source_20261004.zip` 和 `Dist/NPRLocalLightingDemo_Source_20261004.zip` 是源码整理包：不含本机 Binaries/PDB、Intermediate、Saved、DerivedDataCache、迁移暂存及测试日志；压缩包不提交到 Git。其他使用者需要针对其 UE 编译插件。尚未上架 Fab。
 
 ## 维护过程中的失败与修正
 
@@ -40,6 +40,7 @@
 - 首次 Commandlet 未允许渲染，材质统计未生成；补上 `-AllowCommandletRendering` 后取得真实 shader 统计，不以 0 指令误判成功。
 - 编辑器性能设置没有 Python 导出的同名类；读取 `/Script/UnrealEd.Default__EditorPerformanceSettings` 实际对象设置/恢复后台节流。异步 Slate 测试通过 `EditorPythonScripting.set_keep_python_script_alive` 延长一次性脚本生命周期，结束时正常退出。
 - Preview R2 的运行采样通过，结束时额外保存地图受版本控制检出失败影响，保存返回 false，报告正确记为 FAIL。取消测试中非必要的保存，并在新工程测试会话指定 `-SCCProvider=None`；R3 完整 PASS，失败日志/报告仍保留在 Saved。只读冒烟测试不再把保存失败当作补光失败。
+- GitHub 仓库创建时已有用户选择的 MIT LICENSE 初始提交；未强推覆盖。读取确认后保留该提交、合并不相关的本地初始历史，并将同一 MIT 文本加入独立插件目录。常规 push 首次被远端已有提交安全拒绝，后续重试结果待记录。
 
 临时旧路径的迁移文件已可恢复地移到 `Saved/MigrationSources/HairLab`，没有递归删除。旧工程的学习记录/维护脚本不包含在分发包。产品不依赖 MCP、Python 或 Terminal；电脑操作技能所需执行器本轮不可用，实际通过文件操作与 UE 原生接口完成，不宣称使用了鼠标自动化。
 
